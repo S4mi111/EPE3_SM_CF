@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $tipo = mysqli_real_escape_string($conn, $_POST['tipo']);
 
-    $sql = "UPDATE usuarios SET correo='$correo', password='$password', tipo='$tipo' WHERE Rut='$id'";
+    $sql = "UPDATE usuarios SET correo='$correo', Contraseña='$password', tipo='$tipo' WHERE Rut='$id'";
     if ($conn->query($sql) === TRUE) {
         header("Location: crud_usuarios.php");
         exit();
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="form-group">
                 <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" class="form-control" value="<?php echo $row['password']; ?>" required>
+                <input type="password" id="password" name="password" class="form-control" value="<?php echo $row['Contraseña']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="tipo">Tipo:</label>

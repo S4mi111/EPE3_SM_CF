@@ -7,20 +7,28 @@ if ($_SESSION['usuario_tipo'] != 'Vendedor') {
 include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitizar entradas
-    $nombreRepuesto = mysqli_real_escape_string($conn, $_POST['nombreRepuesto']);
-    $cantidadStock = mysqli_real_escape_string($conn, $_POST['cantidadStock']);
-    $precioUnitario = mysqli_real_escape_string($conn, $_POST['precioUnitario']);
-    $proveedor = mysqli_real_escape_string($conn, $_POST['proveedor']);
-
-    // Manejar las acciones de Insertar
     if (isset($_POST['insert'])) {
+        // Sanitizar entradas solo si se envía el formulario
+        $nombreRepuesto = mysqli_real_escape_string($conn, $_POST['nombreRepuesto']);
+        $cantidadStock = mysqli_real_escape_string($conn, $_POST['cantidadStock']);
+        $precioUnitario = mysqli_real_escape_string($conn, $_POST['precioUnitario']);
+        $proveedor = mysqli_real_escape_string($conn, $_POST['proveedor']);
+
+        // Insertar datos
         $sql = "INSERT INTO repuestos (NombreRepuesto, CantidadStock, PrecioUnitario, Proveedor) VALUES ('$nombreRepuesto', '$cantidadStock', '$precioUnitario', '$proveedor')";
-        $conn->query($sql);
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Repuesto agregado exitosamente');</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     } elseif (isset($_POST['delete'])) {
         $id = mysqli_real_escape_string($conn, $_POST['id']);
         $sql = "DELETE FROM repuestos WHERE RepuestoID='$id'";
-        $conn->query($sql);
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Repuesto eliminado exitosamente');</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
 

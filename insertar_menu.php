@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $tipo = mysqli_real_escape_string($conn, $_POST['tipo']);
 
-    $sql = "INSERT INTO usuarios (correo, password, tipo) VALUES ('$correo', '$password', '$tipo')";
+    $sql = "INSERT INTO usuarios (correo, Contraseña, tipo) VALUES ('$correo', '$password', '$tipo')";
     if ($conn->query($sql) === TRUE) {
         echo "Nuevo usuario insertado exitosamente";
     } else {

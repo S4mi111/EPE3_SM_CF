@@ -8,13 +8,14 @@ include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Sanitizar entradas
+    $rut = mysqli_real_escape_string($conn, $_POST['rut']);
     $correo = mysqli_real_escape_string($conn, $_POST['correo']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $tipo = mysqli_real_escape_string($conn, $_POST['tipo']);
 
     // Manejar las acciones de Insertar y Eliminar
     if (isset($_POST['insert'])) {
-        $sql = "INSERT INTO usuarios (Correo, password, Tipo) VALUES ('$correo', '$password', '$tipo')";
+        $sql = "INSERT INTO usuarios (Rut, Correo, Contraseña, Tipo) VALUES ('$rut', '$correo', '$password', '$tipo')";
         if ($conn->query($sql) === TRUE) {
             header("Location: crud_usuarios.php");
             exit();
@@ -37,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $sql = "SELECT * FROM usuarios";
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -49,6 +49,10 @@ $result = $conn->query($sql);
     <div class="container mt-5">
         <h2 class="mb-4">CRUD Usuarios</h2>
         <form action="crud_usuarios.php" method="post" class="mb-4">
+            <div class="form-group">
+                <label for="rut">RUT:</label>
+                <input type="text" id="rut" name="rut" class="form-control" required>
+            </div>
             <div class="form-group">
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo" name="correo" class="form-control" required>
@@ -87,7 +91,7 @@ $result = $conn->query($sql);
                 <tr>
                     <td><?php echo $row['Rut']; ?></td>
                     <td><?php echo $row['Correo']; ?></td>
-                    <td><?php echo $row['password']; ?></td>
+                    <td><?php echo $row['Contraseña']; ?></td>
                     <td><?php echo $row['Tipo']; ?></td>
                     <td>
                         <form action="editar_usuario.php" method="get" style="display:inline;">
